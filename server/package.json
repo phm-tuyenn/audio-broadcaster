@@ -1,0 +1,23 @@
+{
+  "name": "audio-broadcaster-server",
+  "version": "1.0.0",
+  "description": "An audio broadcaster use Orange Pi, Nodejs and React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phm-tuyenn/audio-broadcaster.git"
+  },
+  "keywords": [
+    "node",
+    "orangepi-zero"
+  ],
+  "author": "Pham Tuyen",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/phm-tuyenn/audio-broadcaster/issues"
+  },
+  "homepage": "https://github.com/phm-tuyenn/audio-broadcaster#readme"
+}
