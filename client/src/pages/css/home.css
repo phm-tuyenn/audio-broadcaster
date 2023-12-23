@@ -1,0 +1,13 @@
+* {
+    text-decoration: none!important;
+}
+#button {
+    transition: transform .2s ease-in-out;
+    width: 20rem;
+    border: 1px solid #ccc;
+    color: white;
+    background-color: black;
+}
+#button:hover {
+    transform: scale(1.1);
+}
