@@ -1,9 +1,11 @@
 import PageTitle from "../components/PageTitle"
-import { Card, Row, Col, Container } from "react-bootstrap"
+import { Card, Row, Col, Container, Form } from "react-bootstrap"
 import "./css/home.css"
 import { Link } from "react-router-dom"
+import { useState } from "react"
 
 export default function Home() {
+    let [devZone, setDevZone] = useState(false)
     return (<>
         <PageTitle name="Trang chủ"></PageTitle>
         <Row sm={1} md={2} lg={3} xxl={4} style={{ display: "flex", justifyContent:"center" }}>
@@ -27,7 +29,18 @@ export default function Home() {
             </Col>
         </Row>
         <Container fluid className="mt-4 border-top">
-            developer zone
+            <Form.Check
+                type="switch"
+                id="custom-switch"
+                label="Kích hoạt khu vực dành cho nhà phát triển"
+                checked={devZone}
+                onClick={() => {setDevZone(!devZone)}}
+            />
+            <div style={{ visibility: (devZone) ? "visible" : "hidden" }}>
+                developer zone
+                contain cpu, ram usage, cpu temp, terminal output
+            </div>
+            
         </Container>
     </>)
 }

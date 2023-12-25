@@ -26,4 +26,6 @@ noscript {
 }
 .out{ 
     flex:1; 
+    position: relative;
+    width: 100%;
 }

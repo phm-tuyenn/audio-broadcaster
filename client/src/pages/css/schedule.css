@@ -1,0 +1,30 @@
+#table {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: auto;
+}
+#modPanel {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    overflow: auto;
+}
+.cell:hover td {
+    background-color: #101113;
+    cursor: pointer;
+}
+.button {
+    background-color: black;
+    border: 1px solid white;
+    vertical-align:top;
+    display: inline-block;
+}
+.button:hover {
+    background-color: #212529;
+    border: 1px solid white;
+}

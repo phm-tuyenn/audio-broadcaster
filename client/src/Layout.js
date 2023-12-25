@@ -17,8 +17,8 @@ export default function Layout() {
           <Outlet/>
         </Container>
 
-        <Container fluid style={{ display: "flex", justifyContent:"space-between" }}>
-          <p>From <a href="https://github.com/phm-tuyenn" target="_blank">@phm-tuyenn</a> with ❤️</p>
+        <Container fluid style={{ display: "flex", justifyContent:"space-between", fontSize: "10px" }}>
+          <p>From <a href="https://github.com/phm-tuyenn" target="_blank" rel="noreferrer">@phm-tuyenn</a> with ❤️</p>
           <p>Copyright © 2024 All rights reserved.</p>
           <p>{time}</p>
         </Container>
