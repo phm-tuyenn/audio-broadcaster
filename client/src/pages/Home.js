@@ -33,7 +33,7 @@ export default function Home() {
                 type="switch"
                 id="custom-switch"
                 label="Kích hoạt khu vực dành cho nhà phát triển"
-                checked={devZone}
+                defaultChecked={devZone}
                 onClick={() => {setDevZone(!devZone)}}
             />
             <div style={{ visibility: (devZone) ? "visible" : "hidden" }}>

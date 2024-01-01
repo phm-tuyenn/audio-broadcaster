@@ -5,7 +5,7 @@
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pi-broadcaster/pi-broadcaster.git"
+    "url": "git+https://github.com/phm-tuyenn/audio-broadcaster.git"
   },
   "scripts": {
     "start": "node main"
@@ -13,9 +13,9 @@
   "author": "Pham Tuyen",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/pi-broadcaster/pi-broadcaster/issues"
+    "url": "https://github.com/phm-tuyenn/audio-broadcaster/issues"
   },
-  "homepage": "https://github.com/pi-broadcaster/pi-broadcaster#readme",
+  "homepage": "https://github.com/phm-tuyenn/audio-broadcaster#readme",
   "type": "module",
   "dependencies": {
     "is-internet-available": "^3.1.0"

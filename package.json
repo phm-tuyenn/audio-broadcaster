@@ -4,7 +4,14 @@
   "description": "Audio broadcaster",
   "main": "exec.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "api": "npm start --prefix api",
+    "development-client": "npm start --prefix client",
+    "production-client": "npm run serve --prefix client",
+    "server": "npm start --prefix server",
+    "development": "concurrently \"npm run api\" \"npm run development-client\"",
+    "development-full": "concurrently \"npm run api\" \"npm run development-client\" \"npm run server\"",
+    "production": "concurrently \"npm run api\" \"npm run production-client\"",
+    "production-full": "concurrently \"npm run api\" \"npm run production-client\" \"npm run server\""
   },
   "repository": {
     "type": "git",
@@ -15,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/phm-tuyenn/audio-broadcaster/issues"
   },
-  "homepage": "https://github.com/phm-tuyenn/audio-broadcaster#readme"
+  "homepage": "https://github.com/phm-tuyenn/audio-broadcaster#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

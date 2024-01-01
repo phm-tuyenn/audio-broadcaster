@@ -1,0 +1,13 @@
+[
+    {
+        "id": 0,
+        "type": "text",
+        "content": "Xin chào thế giới!"
+    },
+    {
+        "id": 1,
+        "type": "link",
+        "content": "PLmE7EuPpqGT_cXnTYYew_jJN2bpFKVmyl",
+        "index": 0
+    }
+]

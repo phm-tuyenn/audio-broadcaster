@@ -18,6 +18,9 @@
     background-color: #101113;
     cursor: pointer;
 }
+.cell-focused {
+    background-color: #101113;
+}
 .button {
     background-color: black;
     border: 1px solid white;
@@ -27,4 +30,13 @@
 .button:hover {
     background-color: #212529;
     border: 1px solid white;
+}
+.modal-header {
+    background-color: #1e1f20!important;
+}
+.modal-body {
+    background-color: #1e1f20!important;
+}
+.modal-footer {
+    background-color: #1e1f20!important;
 }

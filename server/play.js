@@ -2,22 +2,25 @@ import fs from "fs"
 import path from "path"
 import { execSync } from "child_process"
 
-let config = JSON.parse(fs.readFileSync("../client/src/config.json", "utf8"))
+let config = JSON.parse(fs.readFileSync("../data/config.json", "utf8"))
+let source = JSON.parse(fs.readFileSync("../data/source.json", "utf8"))
+let time = JSON.parse(fs.readFileSync("../data/time.json", "utf8"))
+
 function play(i) {
-    if (config[i].type === "text") {
+    if (source[i].type === "text") {
         for (let index = 0; index < 3; index++) {
-            execSync(` mpg123 ${path.join(config[i].dir.toString(), "0.mp3")}`)
+            execSync(`mpg123 ${path.join(source[i].dir.toString(), "0.mp3")}`)
         }
-    } else if (config[i].type === "link") {
-        execSync(` mpg123 ${path.join(config[i].dir.toString(), `${config[i].index}.mp3`)}`)
-        config[i].index += 1
+    } else if (source[i].type === "link") {
+        execSync(`mpg123 ${path.join(source[i].dir.toString(), `${source[i].index}.mp3`)}`)
+        source[i].index += 1
         let count = 0
-        fs.readdirSync(config[i].dir.toString()).forEach(item => {
+        fs.readdirSync(source[i].dir.toString()).forEach(item => {
             if (item.endsWith(".mp3")) count += 1
         })
-        if (config[i].index === count) config[i].index = 0
-        fs.writeFileSync("../client/src/config.json", JSON.stringify(config))
-        config = JSON.parse(fs.readFileSync("../client/src/config.json", "utf8"))
+        if (source[i].index === count) source[i].index = 0
+        fs.writeFileSync("../data/source.json", JSON.stringify(source))
+        source = JSON.parse(fs.readFileSync("../data/source.json", "utf8"))
     }
 }
 
@@ -35,7 +38,7 @@ function playProcess(time, day, i) {
         let wday = (wd.getDay() == 0 ? 7 : wd.getDay()) - 1
         console.log("play")
         if (day.includes(wday)) {
-            play(i)
+            config[i].context.forEach(j => play(j))
             console.log("play ok")
         }
         console.log("play fin")
@@ -44,7 +47,7 @@ function playProcess(time, day, i) {
 }
 
 for(let i = 0; i < config.length; i++) {
-    config[i].tm.forEach(tm => playProcess(tm.time * 3600, tm.day, i))
+    config[i].tm.forEach(tm => playProcess(time[tm].time * 3600, time[tm].day, i))
 }
 
 
