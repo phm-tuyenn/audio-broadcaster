@@ -4,7 +4,7 @@ import { isInternetAvailable } from "is-internet-available"
 
 function generateText(a) {
     console.log("start make text")
-    execSync(`gtts-cli "${a.contetn}" -l vi -o ${a.dir.toString()}/0.mp3`)
+    execSync(`gtts-cli "${a.id}" -l vi -o ${a.dir.toString()}/0.mp3`)
     console.log("make text ok")
 }
 

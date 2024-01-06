@@ -1,9 +1,31 @@
+::-webkit-scrollbar {
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    cursor: pointer;
+}
+textarea {
+    resize: none;
+    white-space: nowrap;
+    padding-bottom: 7px;
+    overflow-y: hidden;
+}
 #table {
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    width: 50%;
+    width: 30%;
     overflow: auto;
 }
 #modPanel {
@@ -11,25 +33,22 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: 50%;
+    width: 70%;
     overflow: auto;
 }
 .cell:hover td {
-    background-color: #101113;
+    background-color: #131516;
     cursor: pointer;
-}
-.cell-focused {
-    background-color: #101113;
 }
 .button {
     background-color: black;
-    border: 1px solid white;
+    border: 1px solid #767676;
     vertical-align:top;
     display: inline-block;
 }
 .button:hover {
     background-color: #212529;
-    border: 1px solid white;
+    border: 1px solid #767676;
 }
 .modal-header {
     background-color: #1e1f20!important;
@@ -39,4 +58,8 @@
 }
 .modal-footer {
     background-color: #1e1f20!important;
+}
+.active td {
+    background-color: #198754;
+    border: 1px solid #767676;
 }

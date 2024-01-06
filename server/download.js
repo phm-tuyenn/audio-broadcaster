@@ -8,7 +8,7 @@ async function getList(a) {
     let data
     await isInternetAvailable().then(function(res){
         if (res) {
-            let output = execSync(`yt-dlp -j --flat-playlist ${a.content} --playlist-reverse`).toString()
+            let output = execSync(`yt-dlp -j --flat-playlist ${a.id} --playlist-reverse`).toString()
             data = JSON.parse(`[${output.replace(/\n/g, ",").substr(0, output.length - 1)}]`)
         } else throw new Error()
     }).catch(async function(err){

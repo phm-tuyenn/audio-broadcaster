@@ -14,6 +14,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.disable('etag');
 
 app.use(cors());
 app.use(logger('dev'));

@@ -23,7 +23,7 @@ export default function Navigation() {
             <Link to="/schedule"><Button className="nav-button">Cài đặt lịch phát</Button></Link>
           </Nav.Item>
           <Nav.Item className="mx-4 d-none d-sm-block">
-            <Link to="/device"><Button className="nav-button">Cài đặt thiết bị</Button></Link>
+            <Link to="/device"><Button className="nav-button">Kết nối Wifi</Button></Link>
           </Nav.Item>
           <Nav.Item className="mx-4 d-sm-none">
             <Button as="a" className="nav-button" onClick={handleShow}>
@@ -42,7 +42,7 @@ export default function Navigation() {
         <Stack gap={3}>
           <Link onClick={handleClose} to="/"><Button className="nav-button">Trang chủ</Button></Link>
           <Link onClick={handleClose} to="/schedule"><Button className="nav-button">Cài đặt lịch phát</Button></Link>
-          <Link onClick={handleClose} to="/device"><Button className="nav-button">Cài đặt thiết bị</Button></Link>
+          <Link onClick={handleClose} to="/device"><Button className="nav-button">Kết nối Wifi</Button></Link>
         </Stack>
       </Offcanvas.Body>
     </Offcanvas>
