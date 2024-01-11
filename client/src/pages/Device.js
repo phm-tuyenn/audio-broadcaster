@@ -6,13 +6,12 @@ export default function Device() {
     let [text, setText] = useState([<p>Sử dụng kết nối Internet có dây để có chất lượng đường truyền tốt nhất.<br/>Chọn một mạng để kết nối bảng mạch với mạng đó:</p>])
     let [list, setList] = useState([])
     let [conList, setConList] = useState([])
-    let [refresh, setRefresh] = useState(true)
     let [connectWifi, setConnectWifi] = useState(false)
     let [finConnectWifi, setFinConnectWifi] = useState(false)
     let [connectInfo, setConnectInfo] = useState({ssid: "", password: ""})
+    const [temp, setTemp] = useState(0)
 
     useEffect(() => {
-        if (refresh) {
             fetch("http://127.0.0.1:9000/api/scanwifi")
             .then(res => res.json())
             .then(data => { 
@@ -21,12 +20,15 @@ export default function Device() {
                 })
                 setList(data)
             })
-            setRefresh(false)
-        }
-    }, [refresh])
+    }, [temp])
+
+    useEffect(()=>{
+        setInterval(()=>{
+          setTemp((prevTemp)=>prevTemp+1)
+        }, 500)
+      }, [])
 
     useEffect(() => {
-        if (refresh) {
             fetch("http://127.0.0.1:9000/api/checkwifi")
             .then(res => res.json())
             .then(data => { 
@@ -35,9 +37,7 @@ export default function Device() {
                 })
                 setConList(data)
             })
-            setRefresh(false)
-        }
-    }, [refresh])
+    }, [temp])
     
     useEffect(() => {
         if (finConnectWifi) {
@@ -62,8 +62,9 @@ export default function Device() {
 
     const makeTable = () => {
         let table = []
+        let bssid = (conList.length === 0) ? "" : conList[0].bssid
         list.forEach((data, i) => {
-            if (data.ssid !== "" && data.ssid !== conList[0].bssid) {
+            if (data.ssid !== "" && bssid !== data.ssid) {
                 let cell = []
                 cell.push(<td>{(i + 1).toString()}</td>)
                 cell.push(<td>{data.ssid}</td>)
@@ -76,13 +77,13 @@ export default function Device() {
 
     const makeConTable = () => {
         let table = []
-        conList.forEach((data, i) => {
+        if (conList.length !== 0) conList.forEach((data, i) => {
             let cell = []
             cell.push(<td>{(i + 1).toString()}</td>)
             cell.push(<td>{data.bssid}</td>)
             cell.push(<td>{(data.quality <= 100) ? data.quality : 100}%</td>)
             table.push(<tr>{cell}</tr>)
-    })
+        })
         return table
     }
     
@@ -94,7 +95,6 @@ export default function Device() {
     return (<>
         <PageTitle name="Kết nối wifi"></PageTitle>
         <div className="d-flex justify-content-start">{text}</div>
-        <Button onClick={() => setRefresh(true)} className="border text-white bg-black mb-2 d-flex justify-content-end">Làm mới</Button>
         
         <Table bordered data-bs-theme="dark" className="text-center pe-2">
             <thead>

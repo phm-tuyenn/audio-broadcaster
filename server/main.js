@@ -1,6 +1,28 @@
 import fs from "fs"
 import path from "path"
 import { Worker } from "worker_threads"
+import http from "http"
+
+http.createServer(function (req, res) {
+    const headers = {
+        'Access-Control-Allow-Origin': '*', /* @dev First, read about security */
+        'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+        'Access-Control-Max-Age': 2592000, // 30 days
+        /** add other headers as per requirement */
+    };
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204, headers);
+    }
+
+    if (['GET', 'POST'].indexOf(req.method) > -1) {
+        res.writeHead(200, headers);
+    }
+    
+    res.write("restart")
+    res.end();
+    process.exit(1);
+}).listen(8080); 
 
 let config = JSON.parse(fs.readFileSync("../data/config.json", "utf8"))
 

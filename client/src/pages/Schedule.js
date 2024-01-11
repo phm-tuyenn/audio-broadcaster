@@ -95,7 +95,13 @@ export default function Schedule() {
                 body: JSON.stringify({data: data})
             })
             .then(res => res.json())
-            .then(dta => { setUpdate(false); setStatus("Chỉnh sửa thành công") })
+            .then(dta => { 
+                setUpdate(false); 
+                setStatus("Chỉnh sửa thành công"); 
+                fetch("http://127.0.0.1:8080", {
+                    
+                }) 
+            })
             .catch (err => {console.error(err); setUpdate(false); setStatus("Có lỗi xảy ra. Vui lòng thử lại")})
         }
     // eslint-disable-next-line
@@ -237,7 +243,7 @@ export default function Schedule() {
                     editData[k].tm[i].time = mmssToMin(e.target.value)
                     setData(editData)
                     setUpdate(true)
-                    modify(i)
+                    modify(k)
                 }}></input>
             </td>)
             cell.push(<td key={i.toString() + "-day"}>
