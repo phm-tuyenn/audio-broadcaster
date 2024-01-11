@@ -8,7 +8,7 @@
     "url": "git+https://github.com/pi-broadcaster/pi-broadcaster.git"
   },
   "scripts": {
-    "start": "pm2 start main.js --no-daemon"
+    "start": "pm2 start main.js --no-daemon -i 1"
   },
   "author": "Pham Tuyen",
   "license": "GPL-3.0",
