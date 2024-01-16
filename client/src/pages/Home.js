@@ -104,6 +104,7 @@ export default function Home() {
                 }
                 return l
             })
+            if (!l) setTxt(`${queue[0].name} - Thời gian: ${minTommss(queue[0].tm[0].time)} - Nội dung: ${(queue[0].type === "text") ? queue[0].id : (queue[0].type === "link") ? "từ danh sách phát" : "từ USB"}`)
             return l
         })
     }, [queue])
