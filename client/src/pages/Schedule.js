@@ -98,9 +98,9 @@ export default function Schedule() {
             .then(dta => { 
                 setUpdate(false); 
                 setStatus("Chỉnh sửa thành công"); 
-                fetch("http://127.0.0.1:8080", {
-                    
-                }) 
+                fetch("http://127.0.0.1:8080")
+                .then(() => setStatus("Chỉnh sửa thành công"))
+                .catch(() => fetch("http://127.0.0.1:8080"))
             })
             .catch (err => {console.error(err); setUpdate(false); setStatus("Có lỗi xảy ra. Vui lòng thử lại")})
         }

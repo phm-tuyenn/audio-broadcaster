@@ -4,6 +4,7 @@ var { isInternetAvailable } = require("is-internet-available")
 const wifi = require('node-wifi');
 const os = require('os-utils');
 var diskspace = require('diskspace');
+const si = require('systeminformation');
 
 const gb = (a) => {
   return Math.round((a / 1073741824) * 100) / 100
@@ -64,11 +65,23 @@ router.get("/checkwifi", function(req, res) {
       }
     });
 })
+
+router.get('/interface', function(req, res) { // CPU Temperature in C (cpu/temp)
+  si.networkInterfaceDefault()
+  .then(data => res.send({interface: data}))
+  .catch(error => res.status(404).send({interface: ""}))
+})
 //cpu, ram, disk usage
 router.get("/cpu", function(req, res) {
   os.cpuUsage((val) => {
     res.send({value: Math.round(val * 100)})
   })
+})
+
+router.get('/cpu/temp', function(req, res) { // CPU Temperature in C (cpu/temp)
+  si.cpuTemperature()
+  .then(data => res.send({temp: data.main}))
+  .catch(error => res.status(404).send({temp: 0}))
 })
 
 router.get("/ram", function(req, res) {

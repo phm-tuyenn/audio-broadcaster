@@ -11,6 +11,8 @@ export default function Home() {
     let [cpu, setCpu] = useState(0)
     let [ram, setRam] = useState({total: 0, percent: 0, used: 0})
     let [disk, setDisk] = useState({total: 0, percent: 0, used: 0, free: 0})
+    let [cpuTemp, setCpuTemp] = useState({temp: 0})
+    let [interFace, setInterface] = useState({interface: ""})
     const [temp, setTemp] = useState(0)
     //let [interface, setInterface] = useState()
     useEffect(()=>{
@@ -60,12 +62,27 @@ export default function Home() {
         .catch(err => console.log(err))
     }, [temp])
 
+    useEffect(() => {
+        fetch("http://127.0.0.1:9000/api/cpu/temp")
+        .then(res => res.json())
+        .then(data => {setCpuTemp(data);})
+        .catch(err => console.log(err))
+    }, [temp])
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:9000/api/interface")
+        .then(res => res.json())
+        .then(data => {setInterface(data);})
+        .catch(err => console.log(err))
+    }, [temp])
+
     function timeStringToFloat(time) {
         var hoursMinutes = time.split(/[.:]/);
         var hours = parseInt(hoursMinutes[0], 10);
         var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
         return hours + minutes / 60;
     }
+
     function minTommss(minutes){
         let sign = minutes < 0 ? "-" : "";
         let min = Math.floor(Math.abs(minutes))
@@ -78,9 +95,17 @@ export default function Home() {
         datetext = datetext.split(' ')[0]
         datetext = datetext.substring(0, datetext.length - 3)
         let time = timeStringToFloat(datetext)
-        queue.reverse().forEach(a => a.tm.forEach(x => {
-            if (x.time < time && x.day.includes(d.getDay())) setTxt(`${a.name} - Thời gian: ${minTommss(x.time)} - Nội dung: ${(a.type === "text") ? a.id : (a.type === "link") ? "từ danh sách phát" : "từ USB"}`)
-        }))
+        let l = false
+        queue.some(a => {
+            a.tm.some(x => {
+                if (x.time > time && x.day.includes(d.getDay())) {
+                    setTxt(`${a.name} - Thời gian: ${minTommss(x.time)} - Nội dung: ${(a.type === "text") ? a.id : (a.type === "link") ? "từ danh sách phát" : "từ USB"}`)
+                    l = true
+                }
+                return l
+            })
+            return l
+        })
     }, [queue])
 
     return (<>
@@ -106,9 +131,9 @@ export default function Home() {
             </Col>
         </Row>
         <Container fluid className="mt-4 border-top">
-            <div className="mb-1">Bảng mạch {internet ? <>đã kết nối Internet.</>: <>chưa kết nối Internet. Hãy chuyển sang <Link to="/device">cài đặt kết nối Wifi</Link> hoặc cắm cáp Internet.</> }</div>
+            <div className="mb-1">Bảng mạch {internet ? <>đã kết nối Internet qua {interFace.interface}.</>: <>chưa kết nối Internet. Hãy chuyển sang <Link to="/device">cài đặt kết nối Wifi</Link> hoặc cắm cáp Internet.</> }</div>
             <div>Lịch phát tiếp theo: {txt}</div>
-            <label className="mb-1"> CPU: </label>
+            <label className="mb-1"> CPU: {cpuTemp.temp}°C</label>
             <ProgressBar className="mb-1">
                 <ProgressBar now={cpu} label={`Đã sử dụng ${cpu}%`} variant={(cpu < 90) ? "success" : "danger"}></ProgressBar>
                 <ProgressBar now={100 - cpu} label={`Còn lại ${100 - cpu}%`} variant="secondary"></ProgressBar>
