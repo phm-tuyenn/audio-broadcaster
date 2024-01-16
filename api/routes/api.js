@@ -11,8 +11,8 @@ const gb = (a) => {
 }
 
 wifi.init({
-    iface: null
-  });
+  iface: null
+});
 
 var router = express.Router();
 //internet
@@ -80,7 +80,7 @@ router.get("/cpu", function(req, res) {
 
 router.get('/cpu/temp', function(req, res) { // CPU Temperature in C (cpu/temp)
   si.cpuTemperature()
-  .then(data => res.send({temp: data.main}))
+  .then(data => res.send({temp: Math.round(data.main * 10) / 10}))
   .catch(error => res.status(404).send({temp: 0}))
 })
 
