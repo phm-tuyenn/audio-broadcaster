@@ -12,7 +12,7 @@ export default function Device() {
     const [temp, setTemp] = useState(0)
 
     useEffect(() => {
-            fetch("http://127.0.0.1:9000/api/scanwifi")
+            fetch("/api/scanwifi")
             .then(res => res.json())
             .then(data => { 
                 data.sort((a ,b) => {
@@ -29,7 +29,7 @@ export default function Device() {
       }, [])
 
     useEffect(() => {
-            fetch("http://127.0.0.1:9000/api/checkwifi")
+            fetch("/api/checkwifi")
             .then(res => res.json())
             .then(data => { 
                 data.sort((a ,b) => {
@@ -41,7 +41,7 @@ export default function Device() {
     
     useEffect(() => {
         if (finConnectWifi) {
-            fetch("http://127.0.0.1:9000/api/connectwifi", {
+            fetch("/api/connectwifi", {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"

@@ -22,7 +22,7 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/read")
+        fetch("/api/read")
         .then(res => res.json())
         .then(data => {
             data.forEach(a => a.tm.sort((a, b) => { return a.time - b.time }))
@@ -35,42 +35,42 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/internet")
+        fetch("/api/internet")
         .then(res => res.json())
         .then(data => {setInternet(data.available); /*setInterface(data.interface)*/})
         .catch(err => console.log(err))
     }, [temp])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/cpu")
+        fetch("/api/cpu")
         .then(res => res.json())
         .then(data => {setCpu(data.value);})
         .catch(err => console.log(err))
     }, [temp])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/ram")
+        fetch("/api/ram")
         .then(res => res.json())
         .then(data => {setRam(data);})
         .catch(err => console.log(err))
     }, [temp])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/disk")
+        fetch("/api/disk")
         .then(res => res.json())
         .then(data => {setDisk(data);})
         .catch(err => console.log(err))
     }, [temp])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/cpu/temp")
+        fetch("/api/cpu/temp")
         .then(res => res.json())
         .then(data => {setCpuTemp(data);})
         .catch(err => console.log(err))
     }, [temp])
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/interface")
+        fetch("/api/interface")
         .then(res => res.json())
         .then(data => {setInterface(data);})
         .catch(err => console.log(err))

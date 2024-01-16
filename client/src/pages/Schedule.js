@@ -45,7 +45,7 @@ export default function Schedule() {
         console.log("rerender")
     }
     useEffect(() => {
-        fetch("http://127.0.0.1:9000/api/read")
+        fetch("/api/read")
         .then(res => res.json())
         .then(dta => { setData(dta) })
         .catch (err => console.error(err))
@@ -87,7 +87,7 @@ export default function Schedule() {
     useEffect(() => {
         if (update) {
             console.log(`update`)
-            fetch("http://127.0.0.1:9000/api/update", {
+            fetch("/api/update", {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -98,9 +98,9 @@ export default function Schedule() {
             .then(dta => { 
                 setUpdate(false); 
                 setStatus("Chỉnh sửa thành công"); 
-                fetch("http://127.0.0.1:8080")
+                fetch("/restart")
                 .then(() => setStatus("Chỉnh sửa thành công"))
-                .catch(() => fetch("http://127.0.0.1:8080"))
+                .catch(() => fetch("/restart"))
             })
             .catch (err => {console.error(err); setUpdate(false); setStatus("Có lỗi xảy ra. Vui lòng thử lại")})
         }

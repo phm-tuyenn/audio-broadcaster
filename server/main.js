@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path"
 import { Worker } from "worker_threads"
 import http from "http"
+import url from "url"
 
 http.createServer(function (req, res) {
     const headers = {
@@ -19,9 +20,15 @@ http.createServer(function (req, res) {
         res.writeHead(200, headers);
     }
     
-    res.write("restart")
-    res.end();
-    process.exit(1);
+    const reqUrl = url.parse(req.url).pathname
+    if (reqUrl === "/") {
+        res.write("hello")
+        res.end()
+    } else if (reqUrl === "/restart") {
+        res.write("restart")
+        res.end();
+        process.exit(1);
+    }
 }).listen(8080); 
 
 let config = JSON.parse(fs.readFileSync("../data/config.json", "utf8"))
