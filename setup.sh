@@ -9,9 +9,11 @@ cd audio-broadcaster/
 npm install --prefix api
 npm install --prefix client
 npm install --prefix server
+cd server
+chmod +x ./yt-dlp
 cd ~
 echo >> .bashrc
 echo "cd audio-broadcaster" >> .bashrc
 echo "sleep 10" >> .bashrc
-echo "kill-port 3000 8080 9000" >> .bashrc
-echo "npm run development-full" >> .bashrc
+echo "sudo kill-port 3000 8080 9000" >> .bashrc
+echo "sudo npm run development-full" >> .bashrc
