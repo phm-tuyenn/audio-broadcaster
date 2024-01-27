@@ -8,10 +8,11 @@
     "development-client": "npm start --prefix client",
     "production-client": "npm run serve --prefix client",
     "server": "npm start --prefix server",
+    "control": "npm start --prefix control",
     "development": "concurrently \"npm run api\" \"npm run development-client\"",
-    "development-full": "concurrently \"npm run api\" \"npm run development-client\" \"npm run server\"",
+    "development-full": "concurrently \"npm run api\" \"npm run development-client\" \"npm run server\" \"npm run control\"",
     "production": "concurrently \"npm run api\" \"npm run production-client\"",
-    "production-full": "concurrently \"npm run api\" \"npm run production-client\" \"npm run server\""
+    "production-full": "concurrently \"npm run api\" \"npm run production-client\" \"npm run server\" \"npm run control\""
   },
   "repository": {
     "type": "git",
