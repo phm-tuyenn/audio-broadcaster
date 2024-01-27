@@ -62,9 +62,9 @@ export default function Device() {
 
     const makeTable = () => {
         let table = []
-        let bssid = (conList.length === 0) ? "" : conList[0].bssid
+        let ssid = (conList.length === 0) ? "" : conList[0].ssid
         list.forEach((data, i) => {
-            if (data.ssid !== "" && bssid !== data.ssid) {
+            if (data.ssid !== "" && ssid !== data.ssid) {
                 let cell = []
                 cell.push(<td>{(i + 1).toString()}</td>)
                 cell.push(<td>{data.ssid}</td>)
@@ -80,7 +80,7 @@ export default function Device() {
         if (conList.length !== 0) conList.forEach((data, i) => {
             let cell = []
             cell.push(<td>{(i + 1).toString()}</td>)
-            cell.push(<td>{data.bssid}</td>)
+            cell.push(<td>{data.ssid}</td>)
             cell.push(<td>{(data.quality <= 100) ? data.quality : 100}%</td>)
             table.push(<tr>{cell}</tr>)
         })
