@@ -9,7 +9,8 @@ Power on your Pi, wait for boot, SSH or connect monitor to it and start command:
 sudo apt update             
 sudo apt upgrade            
 sudo apt install curl # Run this if you don't have curl, which is installed on Pi by default
-curl https://raw.githubusercontent.com/phm-tuyenn/audio-broadcaster/main/setup.sh -sL | sudo -E bash -
+curl https://raw.githubusercontent.com/phm-tuyenn/audio-broadcaster/main/setup.sh -O
+sudo bash setup.sh
 ```
 Then, the setup will automatically install for you. 
 
