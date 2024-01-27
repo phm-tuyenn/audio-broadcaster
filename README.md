@@ -7,7 +7,8 @@ This is the program that make your Orange Pi (or RPi, BPi, etc) play scheduled a
 Power on your Pi, wait for boot, SSH or connect monitor to it and start command:
 ```
 sudo apt update             
-sudo apt upgrade            
+sudo apt upgrade
+sudo curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install nodejs -y
 sudo apt install curl # Run this if you don't have curl, which is installed on Pi by default
 curl https://raw.githubusercontent.com/phm-tuyenn/audio-broadcaster/main/setup.sh -O
 sudo bash setup.sh
