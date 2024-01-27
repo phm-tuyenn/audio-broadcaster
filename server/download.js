@@ -8,7 +8,7 @@ async function getList(a) {
     let data
     await isInternetAvailable().then(function(res){
         if (res) {
-            let output = execSync(`yt-dlp -j --flat-playlist ${a.id} --playlist-reverse`).toString()
+            let output = execSync(`python yt-dlp -j --flat-playlist ${a.id} --playlist-reverse`).toString()
             data = JSON.parse(`[${output.replace(/\n/g, ",").substr(0, output.length - 1)}]`)
         } else throw new Error()
     }).catch(async function(err){
@@ -21,7 +21,7 @@ async function getList(a) {
 
 async function download(a, i, data) {
     let k
-    let command = `yt-dlp -i --force-overwrites --extract-audio --audio-format mp3 -o "${path.join(a.dir.toString(), `${i.toString()}.mp3`)}" https://youtube.com/watch?v=${data[i].id}`
+    let command = `python yt-dlp -i --force-overwrites --extract-audio --audio-format mp3 -o "${path.join(a.dir.toString(), `${i.toString()}.mp3`)}" https://youtube.com/watch?v=${data[i].id}`
     await isInternetAvailable().then(function(res){
         if (res) {
             console.log(command)
