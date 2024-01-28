@@ -1,5 +1,6 @@
 #!/bin/bash
-
+apt install --fix-broken
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt install nodejs -y
 apt install ffmpeg -y
 apt install mpg123 -y
 npm install --global kill-port
