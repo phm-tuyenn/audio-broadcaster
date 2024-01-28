@@ -11,7 +11,7 @@ sudo apt upgrade
 sudo curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install nodejs -y
 sudo apt install curl # Run this if you don't have curl, which is installed on Pi by default
 curl https://raw.githubusercontent.com/phm-tuyenn/audio-broadcaster/main/setup.sh -O
-sudo bash setup.sh
+bash setup.sh
 ```
 Then, the setup will automatically install for you. 
 
