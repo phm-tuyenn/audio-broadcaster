@@ -15,10 +15,3 @@ npm install --prefix server
 cd server
 chmod +x ./yt-dlp
 cd ~
-echo >> .bashrc
-echo "cd audio-broadcaster" >> .bashrc
-echo "mpg123 data/sound.mp3" >> .bashrc
-echo "sleep 10" >> .bashrc
-echo "sudo kill-port 3000 8080 9000" >> .bashrc
-echo "mpg123 data/sound.mp3" >> .bashrc
-echo "sudo npm run development-full" >> .bashrc
