@@ -10,6 +10,7 @@ npm install --global kill-port
 npm install --global gtts
 git clone https://github.com/phm-tuyenn/audio-broadcaster
 cd audio-broadcaster/
+npm install
 npm install --prefix api
 npm install --prefix client
 npm install --prefix control
