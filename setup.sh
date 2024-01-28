@@ -1,8 +1,10 @@
 #!/bin/bash
-apt install --fix-broken
-curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt install nodejs -y
-apt install ffmpeg -y
-apt install mpg123 -y
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+nvm install 20.9
+sudo apt install --fix-broken
+sudo apt install ffmpeg -y
+sudo apt install mpg123 -y
 npm install --global kill-port
 npm install --global gtts
 git clone https://github.com/phm-tuyenn/audio-broadcaster
