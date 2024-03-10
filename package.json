@@ -2,17 +2,14 @@
   "name": "audio-broadcaster",
   "version": "1.0.0",
   "description": "Audio broadcaster",
-  "main": "exec.js",
+  "main": "main.js",
   "scripts": {
     "api": "npm start --prefix api",
     "development-client": "npm start --prefix client",
     "production-client": "npm run serve --prefix client",
-    "server": "npm start --prefix server",
-    "control": "npm start --prefix control",
     "development": "concurrently \"npm run api\" \"npm run development-client\"",
-    "development-full": "concurrently \"npm run api\" \"npm run development-client\" \"npm run server\" \"npm run control\"",
     "production": "concurrently \"npm run api\" \"npm run production-client\"",
-    "production-full": "concurrently \"npm run api\" \"npm run production-client\" \"npm run server\" \"npm run control\""
+    "start": "concurrently \"npm run production\" \"electron .\""
   },
   "repository": {
     "type": "git",
@@ -25,6 +22,10 @@
   },
   "homepage": "https://github.com/phm-tuyenn/audio-broadcaster#readme",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "wait-port": "^1.1.0"
+  },
+  "devDependencies": {
+    "electron": "^29.1.1"
   }
 }

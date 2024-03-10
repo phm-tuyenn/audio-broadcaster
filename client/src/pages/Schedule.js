@@ -24,11 +24,14 @@ function mmssToMin(time) {
   }
 
 export default function Schedule() {
-    let [content, setContent] = useState([<p key="text">Nhấn vào một lịch phát ở bảng bên trái để chỉnh sửa thông tin lịch phát đó</p>])
+    let [content, setContent] = useState([<p key="text">Chọn đúng USB ở bên trái và nhấn vào một lịch phát ở bảng bên trái để chỉnh sửa thông tin lịch phát đó. Chỉnh sửa xong, nhấn Hoàn tất chỉnh sửa ở bên trái để lưu lại. Quá trình lưu cần Internet và có thể mất từ vài phút tuỳ thuộc tốc độ mạng của bạn.</p>])
     let [data, sData] = useState([])
     let [selected, setSelected] = useState(-1)
     let [update, setUpdate] = useState(false)
     let [status, setStatus] = useState("")
+    let [path, setPath] = useState({})
+    let [paths, setPaths] = useState([])
+    let [pathInput, setPathInput] = useState([])
 
     const inputName = useRef(null);
     const inputContent = useRef(null);
@@ -44,12 +47,29 @@ export default function Schedule() {
         sData(data)
         console.log("rerender")
     }
+
     useEffect(() => {
-        fetch("/api/read")
+        fetch("http://127.0.0.1:9000/api/usb")
+        .then(res => res.json())
+        .then(dta => { 
+            setPaths(dta); 
+            if(dta.length !== 0 && path === "") setPath(dta[0])
+        })
+        .catch (err => console.error(err))
+    }, [])
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:9000/api/read", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({path: path.deviceid})
+        })
         .then(res => res.json())
         .then(dta => { setData(dta) })
         .catch (err => console.error(err))
-    }, [])
+    }, [path])
 
     const add = (type, i = 0) => {
         switch (type) {
@@ -60,7 +80,8 @@ export default function Schedule() {
                     "type": "text",
                     "rand": false,
                     "id": "",
-                    "tm": []
+                    "tm": [],
+                    "dir": data.length + 1
                 })
                 setData(editData);
                 break;
@@ -79,7 +100,7 @@ export default function Schedule() {
     const del = (index) => {
         editData = removeIndex(editData, index)
         setSelected(-1)
-        setContent([<p key="text">Nhấn vào một lịch phát ở bảng bên trái để chỉnh sửa thông tin lịch phát đó</p>])
+        setContent([<p key="text">Chọn đúng USB ở bên trái và nhấn vào một lịch phát ở bảng bên trái để chỉnh sửa thông tin lịch phát đó. Chỉnh sửa xong, nhấn Hoàn tất chỉnh sửa ở bên trái để lưu lại. Quá trình lưu cần Internet và có thể mất từ vài phút tuỳ thuộc tốc độ mạng của bạn.</p>])
         setData(editData);
         setUpdate(true)
     }
@@ -87,25 +108,35 @@ export default function Schedule() {
     useEffect(() => {
         if (update) {
             console.log(`update`)
-            fetch("/api/update", {
+            fetch("http://127.0.0.1:9000/api/update", {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 },
-                body: JSON.stringify({data: data})
+                body: JSON.stringify({path: path.deviceid, data: data})
             })
             .then(res => res.json())
             .then(dta => { 
                 setUpdate(false); 
                 setStatus("Chỉnh sửa thành công"); 
-                fetch("/restart")
-                .then(() => setStatus("Chỉnh sửa thành công"))
-                .catch(() => fetch("/restart"))
             })
-            .catch (err => {console.error(err); setUpdate(false); setStatus("Có lỗi xảy ra. Vui lòng thử lại")})
+            .catch (err => {console.error(err); setUpdate(false); setStatus("Có lỗi xảy ra. Vui lòng tải lại trang")})
         }
     // eslint-disable-next-line
     }, [update])
+
+    const openExplorer = (i) => {
+        fetch("http://127.0.0.1:9000/api/explorer", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({path: path.deviceid, id: data[i].dir})
+        })
+        .then(res => res.json())
+        .then(dta => { console.log(dta) })
+        .catch (err => console.error(err))
+    }
 
     const modify = (i) => {
         console.log("modify", i)
@@ -132,39 +163,38 @@ export default function Schedule() {
                         if (e.key === "Enter")
                             inputName.current.blur()
                         }}></textarea>
-                <p onClick={() => inputName.current.focus()} style={{cursor: "pointer"}}>✎</p>
             </h4>)
-            cnt.push(<h6 className="d-flex align-center justify-content-start mb-2">Loại lịch phát: {(a.type === "text") ? "Lời nhắc" : (a.type === "link") ? "Danh sách phát" : ""}</h6>)
-            cnt.push(<h6 key="content" className="d-flex align-center justify-content-start mb-2">
-                <label for="edit-content">Lời nhắc: </label>
-                <textarea
-                    id="edit-content"
-                    rows={`1`}
-                    cols={`50`}
-                    className="d-inline-block me-3 ms-2 bg-black rounded" 
-                    value={(a.type === "text") ? a.id : (a.type === "link") ? `https://www.youtube.com/playlist?list=${a.id}` : ""} 
-                    placeholder="Nhập lời nhắc hoặc liên kết danh sách phát..."
-                    ref={inputContent}
-                    onChange={(e) => {
-                        // eslint-disable-next-line
-                        let test = /^.*(youtu.be\/|list=)([^#\&\?]*).*/;
-                        if (test.test(e.target.value) && e.target.value.match(test)[2] !== "") {
-                            editData[i].type = "link"
-                            editData[i].id = e.target.value.match(test)[2]
-                        } else {
+            cnt.push(<h6 className="d-flex align-center justify-content-start mb-2">Loại lịch phát: {(a.type === "text") ? "Lời nhắc (hãy thêm một dấu cách vào cuối câu để tăng độ chính xác cho chương trình)" : (a.type === "link") ? "Nhạc (hãy đặt tên file bằng kí tự không dấu)" : ""}</h6>)
+            if(a.type === "text") {
+                cnt.push(<h6 key="content" className="d-flex align-center justify-content-start mb-2">
+                    <label for="edit-content">Lời nhắc: </label>
+                    <textarea
+                        id="edit-content"
+                        rows={`1`}
+                        cols={`50`}
+                        className="d-inline-block me-3 ms-2 bg-black rounded" 
+                        value={a.id} 
+                        placeholder="Nhập lời nhắc hoặc liên kết danh sách phát..."
+                        ref={inputContent}
+                        onChange={(e) => {
                             editData[i].id = e.target.value
                             editData[i].type = "text"
-                        }
-                        setData(editData) 
-                        setUpdate(true)
-                        modify(i)
-                    }} 
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter")
-                            inputContent.current.blur()
-                        }}></textarea>
-                <p onClick={() => inputContent.current.focus()} style={{cursor: "pointer"}}>✎</p>
-            </h6>)
+                            setData(editData) 
+                            setUpdate(true)
+                            modify(i)
+                            console.log(e.target.value)
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter")
+                                inputContent.current.blur()
+                            }}></textarea>
+                </h6>)
+            } else {
+                cnt.push(<h6 key="content" className="d-flex align-center justify-content-start mb-2">
+                    <label for="edit-content">Lời nhắc: </label> 
+                    <Button className="border-white bg-black ms-1" onClick={() => openExplorer(i)}>Mở thư mục nhạc</Button>
+                </h6>)
+            }
             if (a.type !== "text") cnt.push(<h6 className="d-flex align-center justify-content-start mb-2">
                 <label htmlFor="rand" className="me-1">Phát ngẫu nhiên</label> 
                 <input type="checkbox" checked={a.rand} onChange={(e) => { 
@@ -264,10 +294,48 @@ export default function Schedule() {
         return list
     }
 
+    useEffect(() => {
+        let content = []
+        paths.forEach((pth, i) => {
+            content.push(<option value={i}>{pth.deviceid} {pth.volumename}</option>)
+        })
+        setPathInput(content)
+    }, [paths])
+
     return (<>
         <PageTitle name="Cài đặt lịch phát"></PageTitle> 
+    
         <Container id="table">
-            <strong className="mb-2 mt-0">{status}</strong>
+        <Container fluid className="border-bottom p-2">
+            <Button className="d-flex justify-content-end border-white bg-success mb-3" onClick={() => {
+                if(window.confirm("Bạn chắc chắn là đã hoàn tất chỉnh sửa rồi chứ?")) {
+                    fetch("http://127.0.0.1:9000/api/generate", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        },
+                        body: JSON.stringify({path: path.deviceid})
+                    })
+                    .then(res => res.json())
+                    .then(dta => {
+                        console.log(dta)
+                        alert("Lưu thành công")
+                    })
+                    .catch((err) => {console.error(err); alert("Lưu thất bại do chọn sai USB")})
+                }
+            }}>Hoàn tất chỉnh sửa</Button>
+            <label for="usb"><h6>USB: </h6></label>
+            <select id="usb" name="usb" className="ms-1 bg-black" onChange={(e) => {
+                setPath(paths[e.target.value])
+                setData([])
+                setStatus("")
+                setContent([<p key="text">Chọn đúng USB ở bên trái và nhấn vào một lịch phát ở bảng bên trái để chỉnh sửa thông tin lịch phát đó. Chỉnh sửa xong, nhấn Hoàn tất chỉnh sửa ở bên trái để lưu lại. Quá trình lưu cần Internet và có thể mất từ vài phút tuỳ thuộc tốc độ mạng của bạn.</p>])
+            }}>
+                {pathInput}
+            </select>
+            <Button className="border-white bg-black ms-2" onClick={() => window.location.reload()}>Làm mới danh sách</Button>
+        </Container>
+            <strong className="mb-2 mt-2">{status}</strong>
             <Table bordered data-bs-theme="dark" className="text-center pe-2">
                 <thead>
                     <tr>
